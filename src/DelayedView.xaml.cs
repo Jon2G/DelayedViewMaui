@@ -2,7 +2,7 @@ using AsyncAwaitBestPractices;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace DelayedView;
+namespace DelayedViewMaui;
 
 [ContentProperty(nameof(View))]
 public partial class DelayedView : ContentView
@@ -35,7 +35,7 @@ public partial class DelayedView : ContentView
             pageBase.SetView();
         }
     }
-
+    public event EventHandler? DelayCompleted;
     public int DelayInMilliseconds { get; set; } = 200;
 
     public DelayedView()
@@ -58,6 +58,7 @@ public partial class DelayedView : ContentView
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     base.Content = this.View;
+                    DelayCompleted?.Invoke(this, EventArgs.Empty);
                     OnDelayCompleted();
                 });
             }).SafeFireAndForget();
