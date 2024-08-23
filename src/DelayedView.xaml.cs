@@ -1,4 +1,3 @@
-using AsyncAwaitBestPractices;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -51,17 +50,17 @@ public partial class DelayedView : ContentView
             {
                 return;
             }
-
-            Task.Run(async () =>
-            {
-                await Task.Delay(DelayInMilliseconds);
-                MainThread.BeginInvokeOnMainThread(() =>
+            Task.Delay(DelayInMilliseconds)
+                .ContinueWith(t =>
                 {
-                    base.Content = this.View;
-                    DelayCompleted?.Invoke(this, EventArgs.Empty);
-                    OnDelayCompleted();
-                });
-            }).SafeFireAndForget();
+                    return MainThread.InvokeOnMainThreadAsync(() =>
+                    {
+                        base.Content = this.View;
+                        DelayCompleted?.Invoke(this, EventArgs.Empty);
+                        OnDelayCompleted();
+                    });
+                })
+                .ConfigureAwait(false);
         }
         catch (Exception ex)
         {
