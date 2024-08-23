@@ -50,17 +50,20 @@ public partial class DelayedView : ContentView
             {
                 return;
             }
-            Task.Delay(DelayInMilliseconds)
-                .ContinueWith(t =>
-                {
-                    return MainThread.InvokeOnMainThreadAsync(() =>
-                    {
-                        base.Content = this.View;
-                        DelayCompleted?.Invoke(this, EventArgs.Empty);
-                        OnDelayCompleted();
-                    });
-                })
-                .ConfigureAwait(false);
+            Task.Run(() =>
+            {
+                Task.Delay(DelayInMilliseconds)
+    .ContinueWith(t =>
+    {
+        return MainThread.InvokeOnMainThreadAsync(() =>
+        {
+            base.Content = this.View;
+            DelayCompleted?.Invoke(this, EventArgs.Empty);
+            OnDelayCompleted();
+        });
+    })
+    .ConfigureAwait(false);
+            });
         }
         catch (Exception ex)
         {
