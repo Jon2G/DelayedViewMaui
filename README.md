@@ -5,14 +5,15 @@
  A view that delays content rendering to optimize page push time
 
 
-FlipView for MAUI
 
-A ContentView with a customizable flip animation.
-
-[![NuGet version (FlipView-MAUI)](https://img.shields.io/nuget/v/FlipView-MAUI.svg)](https://www.nuget.org/packages/FlipView-MAUI/)
+## Using delay view:
+https://github.com/user-attachments/assets/129957e3-7e92-4f19-810b-c875b8ae2374
 
 
-![Sample](https://raw.githubusercontent.com/Jon2G/DelayedViewMaui/main/sample.gif)
+## Without delay view:
+https://github.com/user-attachments/assets/b935f3be-1dd7-4998-872f-acc07f62b629
+
+
 
 Usage:
 ```
