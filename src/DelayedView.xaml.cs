@@ -48,6 +48,8 @@ public partial class DelayedView : ContentView
         {
             if (IsLoaded || !IsVisible)
             {
+                base.Content = this.View;
+                OnPropertyChanged(nameof(Content));
                 return;
             }
             Task.Run(() =>
@@ -58,6 +60,7 @@ public partial class DelayedView : ContentView
         return MainThread.InvokeOnMainThreadAsync(() =>
         {
             base.Content = this.View;
+            OnPropertyChanged(nameof(Content));
             DelayCompleted?.Invoke(this, EventArgs.Empty);
             OnDelayCompleted();
         });
